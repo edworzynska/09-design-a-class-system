@@ -1,0 +1,112 @@
+{{PROBLEM}} Multi-Class Planned Design Recipe
+
+1. Describe the Problem
+
+1)  As a user
+    So that I can record my experiences
+    I want to keep a regular diary
+
+2)  As a user
+    So that I can reflect on my experiences
+    I want to read my past diary entries
+
+3)  As a user
+    So that I can reflect on my experiences in my busy day
+    I want to select diary entries to read based on how much time I have and my reading speed
+
+4)  As a user
+    So that I can keep track of my tasks
+    I want to keep a todo list along with my diary
+
+5)  As a user
+    So that I can keep track of my contacts
+    I want to see a list of all of the mobile phone numbers in all my diary entries
+
+2. Design the Class System
+
+Consider diagramming out the classes and their relationships. Take care to focus on the details you see as important, not everything.
+The diagram below uses asciiflow.com but you could also use excalidraw.com, draw.io, or miro.com
+
+
+                uses intances     ┌────────────────────┐
+                from DiaryEntry   │                    │
+               ┌────▼─────────────┼► DiaryEntry        ┼────────────────┐
+               │                  │  title, contents   │                │
+               │                  │                    │                │
+┌──────────────┼──────┐           │  -getTitle         │                │
+│                     │           │  -getContents      │      ┌─────────┼─────────┐
+│ Diary class         │           │  -countWords       │      │         ▼         │
+│                     │           │                    │      |  PhoneBook        │
+│ -list of entries    │           │                    │      │       number      │
+│ -addEntry           │           │                    │      │                   │
+│ -displayEntries     │           └────────────────────┘      │-list of numbers   │
+│ -findBestEntryFor   │                                       │-extractNumber     │
+│  ReadingTime        ┼────────────────┐                      │-addNumberToList   │
+│                     │                │                      │                   │
+│                     │            ┌───▼─────────────────┐    │                   │
+│                     │            │                     │    │                   │
+│                     │            │  ToDo               │    │                   │
+│                     │            │  task               │    └───────────────────┘
+└─────────────────────┘            │                     │
+                                   │  List todos         │
+                                   │  -addTask           │
+                                   │  -markAsCompleted   │
+                                   │                     │
+                                   │                     │
+                                   │                     │
+                                   │                     │
+                                   │                     │
+                                   └─────────────────────┘
+Diary class
+-List<DiaryEntry> listOfEntries
+-addEntry(DiaryEntry)
+-String displayEntries - returns all of the entries as a string
+-findBestEntryForReadingTime(int wpm, int minutes) - finds an entry which matches the best
+with the time user can spend reading
+
+DiaryEntry class
+String title, String contents
+-getTitle()
+-getContents()
+-int countWords()
+
+ToDo
+String task
+List <String> tasks;
+- void add(String task)
+- void markAsCompleted()
+- String displayListOfIncompleted()
+- String displayListOfCompleted()
+
+PhoneBook
+List <String> phoneBook
+-extractNumbers();
+
+3. Create Examples as Integration Tests
+
+addsEntriesExtractsNumbersAndDisplaysEntriesAndPhoneBook(){
+    var diary = new Diary();
+    diary.add("1", "1doo 2bee 3doo 4bee");
+    diary.add("2", "5doo 6bee 7doo 8bee");
+    diary.add("3", "04567321327 9doo 10bee 11doo 12bee");
+    diary.add("4", "13doo 14bee 15doo 16bee");
+    diary.add("5", "17doo 18bee 19doo 20bee 04567321323 04567321324");
+    diary.add("6", "21doo 22bee 04567321321 23doo 24bee");
+    diary.extractNumbers();
+    var phones = diary.displayNumbers();
+    assertEquals("04567321327, 04567321323, 04567321324, 04567321321", phones)
+    var entries = diary.displayEntries();
+    assertEquals("1\n1doo 2bee 3doo 4bee\n2\n5doo 6bee 7doo 8bee\n
+                 3\n04567321327 9doo 10bee 11doo 12bee\n4\n13doo 14bee 15doo 16bee\n
+                 5\n17doo 18bee 19doo 20bee 04567321323 04567321324\n
+                 6\n21doo 22bee 04567321321 23doo 24bee", entries)
+
+4. Create Examples as Unit Tests
+
+
+
+
+5. Implement the Behaviour
+
+After each test you write, follow the test-driving process of red, green, refactor to implement the behaviour.
+
