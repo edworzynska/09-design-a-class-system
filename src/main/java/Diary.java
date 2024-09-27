@@ -27,6 +27,9 @@ public class Diary {
     }
 
     public String findBestEntryForReadingTime(int wpm, int minutes){
+        if (wpm <= 0 || minutes <= 0){
+            throw new RuntimeException("Values should be positive numbers above 0!");
+        }
         int maxWords = wpm * minutes;
         String entryToRead = "";
         int closesWordCount = 0;

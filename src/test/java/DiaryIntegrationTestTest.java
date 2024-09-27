@@ -41,7 +41,7 @@ class DiaryIntegrationTestTest {
         var entry4 = new DiaryEntry("4", "13doo 14bee 15doo 16bee");
         var entry5 = new DiaryEntry("5", "17doo 18bee 19doo 20bee 04567321323 04567321324");
         var entry6 = new DiaryEntry("6", "21doo 22bee 04567321321 23doo 24bee");
-        var entry7 = new DiaryEntry("7", "25doo");
+        var entry7 = new DiaryEntry("7", "25doo 26bee");
         diary.add(entry1);
         diary.add(entry2);
         diary.add(entry3);
@@ -52,9 +52,16 @@ class DiaryIntegrationTestTest {
         var bestEntry = diary.findBestEntryForReadingTime(2, 3);
         assertEquals("5\n17doo 18bee 19doo 20bee 04567321323 04567321324", bestEntry);
         var bestEntry2 = diary.findBestEntryForReadingTime(1,2);
-        assertEquals("7\n25doo", bestEntry2);
-        var bestEntry3 = diary.findBestEntryForReadingTime(1, 0);
+        assertEquals("7\n25doo 26bee", bestEntry2);
+        var bestEntry3 = diary.findBestEntryForReadingTime(1, 1);
         assertEquals("No matching entries found!", bestEntry3);
+    //wpm or minutes is <= 0 -> throws an error
+        RuntimeException e = assertThrows(RuntimeException.class, ()-> diary.findBestEntryForReadingTime(-1, 1));
+        RuntimeException e2 = assertThrows(RuntimeException.class, ()-> diary.findBestEntryForReadingTime(1, -1));
+        RuntimeException e3 = assertThrows(RuntimeException.class, ()-> diary.findBestEntryForReadingTime(0, 0));
+        assertEquals("Values should be positive numbers above 0!", e.getMessage());
+        assertEquals("Values should be positive numbers above 0!", e2.getMessage());
+        assertEquals("Values should be positive numbers above 0!", e3.getMessage());
     }
     @Test
     void toDoListIntegrationTests(){
@@ -92,4 +99,5 @@ class DiaryIntegrationTestTest {
         var emptyList = diary.displayIncomplete();
         assertEquals("No tasks to do! Enjoy your free time.", emptyList);
     }
+
 }
