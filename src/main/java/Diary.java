@@ -3,6 +3,7 @@ import java.util.List;
 
 public class Diary {
     public List<DiaryEntry> diary = new ArrayList<>();
+    ToDo todo = new ToDo();
 
     public void add(DiaryEntry entry){
         diary.add(entry);
@@ -37,5 +38,17 @@ public class Diary {
             }
         }
         return !entryToRead.isEmpty() ? entryToRead : "No matching entries found!";
+    }
+    public void addTask(String task){
+        todo.addTask(task);
+    }
+    public void markAsCompleted(String task){
+        todo.markAsCompleted(task);
+    }
+    public String displayCompleted(){
+        return todo.displayCompleted();
+    }
+    public String displayIncomplete(){
+        return todo.displayTasks();
     }
 }

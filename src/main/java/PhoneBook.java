@@ -23,4 +23,7 @@ public class PhoneBook {
         }
         return String.join("\n", phonebook);
     }
+    public void clearPhonebook(){
+        phonebook.clear();
+    }
 }

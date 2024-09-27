@@ -3,6 +3,9 @@ import java.util.List;
 
 
 public class ToDo {
+
+    public String task;
+
     public List<String> toDoList = new ArrayList<>();
     public List<String> completed = new ArrayList<>();
 
@@ -24,13 +27,16 @@ public class ToDo {
         }
     }
     public void markAsCompleted(String task){
-        if (!toDoList.contains(task)){
+        if (completed.contains(task)){
+            throw new RuntimeException("Task has already been completed!");
+        }
+        else if (!toDoList.contains(task)){
             throw new RuntimeException("Unable to locate the task.");
         }
         toDoList.remove(task);
         completed.add(task);
     }
-    public String displayCompletedTasks(){
+    public String displayCompleted(){
         if (completed.isEmpty()){
             return "No tasks completed! Do something.";
         }
