@@ -1,12 +1,37 @@
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class DiaryEntryTest {
+    DiaryEntry entry;
+    DiaryEntry entry2;
+    @BeforeEach
+    void setUp(){
+        entry = new DiaryEntry("title", "doo bee doo bee");
+        entry2 = new DiaryEntry("header", "some contents in the body of the diary entry");
+    }
     @Test
-    void countsWordsInEntries() {
-        var entry1 = new DiaryEntry("1","17doo 18bee 19doo 20bee 04567321323 04567321324");
-        var entry1l = entry1.countWords();
-        assertEquals(6, entry1l);
+    void countsWordsInEntry() {
+        var entryLength = entry.countWords();
+        assertEquals(4, entryLength);
+    }
+
+    @Test
+    void countsWordsInEntry2() {
+        var entryLength = entry2.countWords();
+        assertEquals(9, entryLength);
+    }
+
+    @Test
+    void throwsAnErrorWhenInitiatingEmptyEntry() {
+        RuntimeException r = assertThrows(RuntimeException.class, ()-> new DiaryEntry("", ""));
+        assertEquals("String cannot be null!", r.getMessage());
+    }
+
+    @Test
+    void displaysEntry() {
+        var displayed = entry.displayEntry();
+        assertEquals("title\ndoo bee doo bee", displayed);
     }
 }

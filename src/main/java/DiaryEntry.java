@@ -6,19 +6,24 @@ public class DiaryEntry {
     public DiaryEntry(String title, String contents){
         this.title = title;
         this.contents = contents;
+        if (contents == null || contents.isEmpty()){
+            throw new RuntimeException("String cannot be null!");
+        }
     }
 
-    public String getTitle() {
+    private String getTitle() {
         return title;
     }
 
-    public String getContents() {
+    private String getContents() {
         return contents;
     }
+
+    public String displayEntry(){
+        return getTitle() + "\n" + getContents();
+    }
+
     public Integer countWords(){
-        if (contents == null){
-            throw new RuntimeException("String cannot be null!");
-        }
         if (contents.isEmpty()) {
             return 0;
         }
