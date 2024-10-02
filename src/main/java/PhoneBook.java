@@ -4,18 +4,25 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class PhoneBook {
-    public List<String> phonebook = new ArrayList<>();
+    private final List<String> phonebook = new ArrayList<>();
 
-    //
+    public List<String> getPhonebook() {
+        return phonebook;
+    }
+
     public void extractNumbers(Diary diary){
+        if (diary.getDiary().isEmpty()){
+            throw new RuntimeException("Your diary is empty!");
+        }
+        final String regex = "\\d{11}";
+        Pattern pattern = Pattern.compile(regex);
 
-        Pattern pattern = Pattern.compile("\\d{11}");
-        String allContents = diary.displayAll();
-        Matcher matcher = pattern.matcher(allContents);
-        while (matcher.find()) {
-            String extracted = matcher.group();
-            phonebook.add(extracted);
-
+        for (DiaryEntry entry : diary.getDiary()){
+            Matcher matcher = pattern.matcher(entry.displayEntry());
+            while (matcher.find()) {
+                String extracted = matcher.group();
+                phonebook.add(extracted);
+            }
         }
     }
     public String displayPhonebook(){

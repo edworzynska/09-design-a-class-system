@@ -41,7 +41,7 @@ class ToDoTest {
         toDo.addTask(task3);
         toDo.addTask(task4);
         var incomplete2 = toDo.displayTasks();
-        assertEquals("Tasks to do: buy milk, eat, sleep", incomplete2);
+        assertEquals("Tasks to do: walk Gucci, buy milk, eat, sleep", incomplete2);
     }
 
     @Test

@@ -15,9 +15,9 @@ class PhoneBookTest {
     @Test
     void addsElementsToListAndDisplays() {
         var phone = new PhoneBook();
-        phone.phonebook.add("4567890789");
-        phone.phonebook.add("1000000000");
-        phone.phonebook.add("11111111111");
+        phone.getPhonebook().add("4567890789");
+        phone.getPhonebook().add("1000000000");
+        phone.getPhonebook().add("11111111111");
         var result = phone.displayPhonebook();
         assertEquals("4567890789\n1000000000\n11111111111", result);
     }
